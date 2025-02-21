@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Society</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Authentication Forms */
+        .auth-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-title {
+            color: #e63946;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #e63946;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .auth-form button:hover {
+                background-color: #d62b39;
+            }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+            .auth-link a {
+                color: #e63946;
+                text-decoration: none;
+            }
+
+        /* Main App Styles */
+        .app-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr;
+            height: 100vh;
+            background-color: #fff;
+        }
+
+        .header {
+            grid-column: 1 / 3;
+            grid-row: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: #e63946;
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .header h1 {
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+            .user-menu .username {
+                margin-right: 15px;
+                font-weight: 500;
+            }
+
+        .logout-btn {
+            padding: 6px 12px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .logout-btn:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+
+        .sidebar {
+            grid-column: 1;
+            grid-row: 2;
+            background-color: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .sidebar-tab.active {
+                color: #e63946;
+                border-bottom: 2px solid #e63946;
+            }
+
+        .search-container {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .contact-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 10px;
+        }
+
+        .contact-item {
+            padding: 12px 10px;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 2px;
+        }
+
+            .contact-item:hover, .contact-item.active {
+                background-color: #e9ecef;
+            }
+
+        .contact-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #e63946;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .contact-info {
+            flex-grow: 1;
+        }
+
+        .contact-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .add-btn {
+            padding: 8px 12px;
+            background-color: transparent;
+            color: #e63946;
+            border: 1px solid #e63946;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+            .add-btn:hover {
+                background-color: #e63946;
+                color: #fff;
+            }
+
+        .main-content {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .chat-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-left: 10px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+            .message.sent {
+                align-self: flex-end;
+                background-color: #e63946;
+                color: #fff;
+                border-bottom-right-radius: 4px;
+            }
+
+            .message.received {
+                align-self: flex-start;
+                background-color: #e9ecef;
+                color: #333;
+                border-bottom-left-radius: 4px;
+            }
+
+        .message-sender {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #666;
+        }
+
+        .message.sent .message-sender {
+            display: none;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            bottom: -18px;
+            right: 10px;
+        }
+
+        .message.sent .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chat-input-container {
+            padding: 15px 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            resize: none;
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            background-color: #e63946;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+            .send-btn:hover {
+                background-color: #d62b39;
+            }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+            .modal-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+        .modal {
+            background-color: #fff;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-form input, .modal-form select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .modal-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .modal-form button {
+            padding: 10px 12px;
+            background-color: #e63946;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+            .modal-form button:hover {
+                background-color: #d62b39;
+            }
+
+        .checkbox-group {
+            margin-bottom: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+            .checkbox-item input {
+                margin-right: 8px;
+                width: auto;
+            }
+
+        .no-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #888;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .no-content-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+
+        .no-content-text {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .no-content-subtext {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background-color: #333;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+            .toast.success {
+                background-color: #28a745;
+            }
+
+            .toast.error {
+                background-color: #dc3545;
+            }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .toast.hide {
+            animation: slideOut 0.3s ease-in forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Pages -->
+    <div id="login-page" class="auth-container" style="display: none;">
+        <h1 class="auth-title">Red Society</h1>
+        <p style="text-align: center; margin-bottom: 20px;">Login to your account</p>
+        <form id="login-form" class="auth-form">
+            <input type="text" id="login-username" placeholder="Username" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p class="auth-link">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+    </div>
+
+    <div id="signup-page" class="auth-container" style="display: none;">
+        <h1 class="auth-title">Red Society</h1>
+        <p style="text-align: center; margin-bottom: 20px;">Create a new account</p>
+        <form id="signup-form" class="auth-form">
+            <input type="text" id="signup-username" placeholder="Choose a username" required>
+            <input type="password" id="signup-password" placeholder="Choose a password" required>
+            <input type="password" id="signup-confirm-password" placeholder="Confirm password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p class="auth-link">Already have an account? <a href="#" id="show-login">Login</a></p>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" class="app-container" style="display: none;">
+        <header class="header">
+            <h1>Red Society</h1>
+            <div class="user-menu">
+                <span class="username" id="current-username">Username</span>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <div class="sidebar-tabs">
+                <div class="sidebar-tab active" data-tab="friends">Friends</div>
+                <div class="sidebar-tab" data-tab="groups">Groups</div>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="Search users...">
+            </div>
+            <div id="friends-tab" class="contact-list">
+                <!-- Friends list will be populated here -->
+                <div class="contact-actions" style="padding: 15px 5px;">
+                    <button id="add-friend-btn" class="add-btn">Add Friend</button>
+                </div>
+            </div>
+            <div id="groups-tab" class="contact-list" style="display: none;">
+                <!-- Groups list will be populated here -->
+                <div class="contact-actions" style="padding: 15px 5px;">
+                    <button id="create-group-btn" class="add-btn">Create Group</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="empty-state" class="no-content">
+                <div class="no-content-icon">💬</div>
+                <div class="no-content-text">Welcome to Red Society</div>
+                <div class="no-content-subtext">Select a friend or group to start messaging</div>
+            </div>
+
+            <div id="chat-container" style="display: none; height: 100%; display: flex; flex-direction: column;">
+                <div class="chat-header">
+                    <div class="chat-title" id="chat-recipient-name">Recipient</div>
+                    <div class="chat-subtitle" id="chat-recipient-info"></div>
+                </div>
+                <div class="chat-messages" id="messages-container">
+                    <!-- Messages will be populated here -->
+                </div>
+                <div class="chat-input-container">
+                    <textarea id="message-input" class="chat-input" placeholder="Type a message..." rows="1"></textarea>
+                    <button id="send-message-btn" class="send-btn">➤</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="add-friend-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add Friend</div>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-friend-form" class="modal-form">
+                    <label for="friend-username">Username</label>
+                    <input type="text" id="friend-username" placeholder="Enter username" required>
+                    <div id="search-results" style="margin-bottom: 15px;"></div>
+                    <button type="submit">Add Friend</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="create-group-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Create Group</div>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="create-group-form" class="modal-form">
+                    <label for="group-name">Group Name</label>
+                    <input type="text" id="group-name" placeholder="Enter group name" required>
+
+                    <label>Add Members</label>
+                    <div id="group-members-list" class="checkbox-group">
+                        <!-- Friend checkboxes will be populated here -->
+                    </div>
+
+                    <button type="submit">Create Group</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const signupPage = document.getElementById('signup-page');
+        const mainApp = document.getElementById('main-app');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const showSignupLink = document.getElementById('show-signup');
+        const showLoginLink = document.getElementById('show-login');
+        const logoutBtn = document.getElementById('logout-btn');
+        const currentUsername = document.getElementById('current-username');
+        const sidebarTabs = document.querySelectorAll('.sidebar-tab');
+        const friendsTab = document.getElementById('friends-tab');
+        const groupsTab = document.getElementById('groups-tab');
+        const searchInput = document.getElementById('search-input');
+        const addFriendBtn = document.getElementById('add-friend-btn');
+        const createGroupBtn = document.getElementById('create-group-btn');
+        const addFriendModal = document.getElementById('add-friend-modal');
+        const createGroupModal = document.getElementById('create-group-modal');
+        const modalCloseButtons = document.querySelectorAll('.modal-close');
+        const addFriendForm = document.getElementById('add-friend-form');
+        const createGroupForm = document.getElementById('create-group-form');
+        const friendUsername = document.getElementById('friend-username');
+        const searchResults = document.getElementById('search-results');
+        const groupName = document.getElementById('group-name');
+        const groupMembersList = document.getElementById('group-members-list');
+        const chatContainer = document.getElementById('chat-container');
+        const emptyState = document.getElementById('empty-state');
+        const chatRecipientName = document.getElementById('chat-recipient-name');
+        const chatRecipientInfo = document.getElementById('chat-recipient-info');
+        const messagesContainer = document.getElementById('messages-container');
+        const messageInput = document.getElementById('message-input');
+        const sendMessageBtn = document.getElementById('send-message-btn');
+        const toastContainer = document.getElementById('toast-container');
+
+        // App State
+        let currentState = {
+            loggedIn: false,
+            username: '',
+            friends: [],
+            groups: {},
+            activeChat: null,
+            activeChatType: null, // 'friend' or 'group'
+            messagePollingInterval: null
+        };
+
+        // Check if user is logged in (session)
+        function checkSession() {
+            // For simplicity, we'll use localStorage to simulate a session
+            const savedUsername = localStorage.getItem('username');
+            if (savedUsername) {
+                currentState.loggedIn = true;
+                currentState.username = savedUsername;
+                showMainApp();
+            } else {
+                showLoginPage();
+            }
+        }
+
+        // Show/Hide Pages
+        function showLoginPage() {
+            loginPage.style.display = 'block';
+            signupPage.style.display = 'none';
+            mainApp.style.display = 'none';
+        }
+
+        function showSignupPage() {
+            loginPage.style.display = 'none';
+            signupPage.style.display = 'block';
+            mainApp.style.display = 'none';
+        }
+
+        function showMainApp() {
+            loginPage.style.display = 'none';
+            signupPage.style.display = 'none';
+            mainApp.style.display = 'grid';
+            currentUsername.textContent = currentState.username;
+
+            // Load friends and groups
+            fetchFriends();
+            fetchGroups();
+        }
+
+        // Authentication Functions
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {  // Check if the response is successful
+                    if (response.url.includes('/index.html') || response.url.endsWith('/')) {
+                        // Login success
+                        currentState.loggedIn = true;
+                        currentState.username = username;
+                        localStorage.setItem('username', username);  // Note: Consider using secure methods for user sessions
+                        showMainApp();
+                        showToast('Logged in successfully', 'success');
+                        showToast('Logged in successfully', 'success');
+                    } else {
+                        showMainApp();
+                        showToast('Logged in successfully', 'success');
+                    }
+                } else {
+                    showToast('Invalid login credentials', 'error');
+                    
+                }
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                showToast('An error occurred during login', 'error');
+            });
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+
+            fetch('/signup', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.includes('Username already exists')) {
+                        showToast('Username already exists', 'error');
+                    } else {
+                        showToast('Account created successfully', 'success');
+                        showLoginPage();
+                    }
+                })
+                .catch(error => {
+                    console.error('Signup error:', error);
+                    showToast('An error occurred during signup', 'error');
+                });
+        }
+
+        function handleLogout() {
+            fetch('/logout')
+                .then(() => {
+                    currentState.loggedIn = false;
+                    currentState.username = '';
+                    currentState.friends = [];
+                    currentState.groups = {};
+                    currentState.activeChat = null;
+                    currentState.activeChatType = null;
+
+                    clearInterval(currentState.messagePollingInterval);
+                    localStorage.removeItem('username');
+                    showLoginPage();
+                })
+                .catch(error => {
+                    console.error('Logout error:', error);
+                });
+        }
+
+        // Data Fetching Functions
+        function fetchFriends() {
+            fetch('/get_friends')
+                .then(response => response.json())
+                .then(data => {
+                    currentState.friends = data.friends || [];
+                    renderFriendsList();
+                })
+                .catch(error => {
+                    console.error('Fetch friends error:', error);
+                    showToast('Failed to load friends', 'error');
+                });
+        }
+
+        function fetchGroups() {
+            fetch('/get_groups')
+                .then(response => response.json())
+                .then(data => {
+                    currentState.groups = data.groups || {};
+                    renderGroupsList();
+                })
+                .catch(error => {
+                    console.error('Fetch groups error:', error);
+                    showToast('Failed to load groups', 'error');
+                });
+        }
+
+        function searchUsers(query) {
+            fetch(`/search?name=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    renderSearchResults(data.matches || []);
+                })
+                .catch(error => {
+                    console.error('Search users error:', error);
+                    showToast('Failed to search users', 'error');
+                });
+        }
+
+        function addFriend(friendUsername) {
+            fetch('/add_friend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ friend: friendUsername })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'error');
+                    } else {
+                        showToast(`Added ${friendUsername} as a friend`, 'success');
+                        closeModal(addFriendModal);
+                        fetchFriends();
+                    }
+                })
+                .catch(error => {
+                    console.error('Add friend error:', error);
+                    showToast('Failed to add friend', 'error');
+                });
+        }
+
+        function createGroup(groupName, members) {
+            fetch('/create_group', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: groupName, members: members })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'error');
+                    } else {
+                        showToast(`Group "${groupName}" created successfully`, 'success');
+                        closeModal(createGroupModal);
+                        fetchGroups();
+                    }
+                })
+                .catch(error => {
+                    console.error('Create group error:', error);
+                    showToast('Failed to create group', 'error');
+                });
+        }
+
+        function fetchMessages(recipient, isGroup = false) {
+            const url = `/get_messages?recipient=${encodeURIComponent(recipient)}&isGroup=${isGroup}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    renderMessages(data.messages || []);
+                })
+                .catch(error => {
+                    console.error('Fetch messages error:', error);
+                    showToast('Failed to load messages', 'error');
+                });
+        }
+
+        function sendMessage(recipient, message, isGroup = false) {
+            fetch('/save_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    recipient: recipient,
+                    message: message,
+                    isGroup: isGroup
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'error');
+                    } else {
+                        // Clear input field
+                        messageInput.value = '';
+                        // Reload messages
+                        fetchMessages(recipient, isGroup);
+                    }
+                })
+                .catch(error => {
+                    console.error('Send message error:', error);
+                    showToast('Failed to send message', 'error');
+                });
+        }
+
+        // Rendering Functions
+        function renderFriendsList() {
+            // Clear current list, keeping the actions button
+            const actionsDiv = friendsTab.querySelector('.contact-actions');
+            friendsTab.innerHTML = '';
+            friendsTab.appendChild(actionsDiv);
+
+            if (currentState.friends.length === 0) {
+                const emptyFriends = document.createElement('div');
+                emptyFriends.className = 'no-content';
+                emptyFriends.innerHTML = `
+                        <div class="no-content-icon">👋</div>
+                        <div class="no-content-text">No friends yet</div>
+                        <div class="no-content-subtext">Click "Add Friend" to start connecting</div>
+                    `;
+                friendsTab.appendChild(emptyFriends);
+                return;
+            }
+
+            currentState.friends.forEach(friend => {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.dataset.id = friend;
+                contactItem.dataset.type = 'friend';
+
+                const firstLetter = friend.charAt(0).toUpperCase();
+                contactItem.innerHTML = `
+                        <div class="contact-avatar">${firstLetter}</div>
+                        <div class="contact-info">
+                            <div class="contact-name">${friend}</div>
+                        </div>
+                    `;
+
+                contactItem.addEventListener('click', () => selectChat(friend, 'friend'));
+                friendsTab.appendChild(contactItem);
+            });
+        }
+
+        function renderGroupsList() {
+            // Clear current list, keeping the actions button
+            const actionsDiv = groupsTab.querySelector('.contact-actions');
+            groupsTab.innerHTML = '';
+            groupsTab.appendChild(actionsDiv);
+
+            const groupCount = Object.keys(currentState.groups).length;
+
+            if (groupCount === 0) {
+                const emptyGroups = document.createElement('div');
+                emptyGroups.className = 'no-content';
+                emptyGroups.innerHTML = `
+                        <div class="no-content-icon">👥</div>
+                        <div class="no-content-text">No groups yet</div>
+                        <div class="no-content-subtext">Click "Create Group" to get started</div>
+                    `;
+                groupsTab.appendChild(emptyGroups);
+                return;
+            }
+
+            Object.entries(currentState.groups).forEach(([groupName, groupData]) => {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.dataset.id = groupName;
+                contactItem.dataset.type = 'group';
+
+                const firstLetter = groupName.charAt(0).toUpperCase();
+                const memberCount = groupData.members.length;
+
+                contactItem.innerHTML = `
+                        <div class="contact-avatar">${firstLetter}</div>
+                        <div class="contact-info">
+                            <div class="contact-name">${groupName}</div>
+                            <div style="font-size: 12px; color: #666;">${memberCount} members</div>
+                        </div>
+                    `;
+
+                contactItem.addEventListener('click', () => selectChat(groupName, 'group'));
+                groupsTab.appendChild(contactItem);
+            });
+        }
+
+        function renderSearchResults(results) {
+            searchResults.innerHTML = '';
+
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div style="color: #666; padding: 5px;">No users found</div>';
+                return;
+            }
+
+            results.forEach(user => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'contact-item';
+
+                const firstLetter = user.charAt(0).toUpperCase();
+                resultItem.innerHTML = `
+                        <div class="contact-avatar" style="width: 30px; height: 30px; font-size: 12px;">${firstLetter}</div>
+                        <div class="contact-info">
+                            <div class="contact-name">${user}</div>
+                        </div>
+                    `;
+
+                resultItem.addEventListener('click', () => {
+                    friendUsername.value = user;
+                });
+
+                searchResults.appendChild(resultItem);
+            });
+        }
+
+        function renderMessages(messages) {
+            messagesContainer.innerHTML = '';
+
+            if (messages.length === 0) {
+                const emptyMessages = document.createElement('div');
+                emptyMessages.className = 'no-content';
+                emptyMessages.innerHTML = `
+                        <div class="no-content-icon">💬</div>
+                        <div class="no-content-text">No messages yet</div>
+                        <div class="no-content-subtext">Send a message to start the conversation</div>
+                    `;
+                messagesContainer.appendChild(emptyMessages);
+                return;
+            }
+
+            messages.forEach(msg => {
+                const messageEl = document.createElement('div');
+                const isCurrentUser = msg.sender === currentState.username;
+                messageEl.className = `message ${isCurrentUser ? 'sent' : 'received'}`;
+
+                let messageContent = `
+                        ${!isCurrentUser ? `<div class="message-sender">${msg.sender}</div>` : ''}
+                        <div class="message-content">${msg.content}</div>
+                        <div class="message-time">${formatTimestamp(msg.timestamp)}</div>
+                    `;
+
+                messageEl.innerHTML = messageContent;
+                messagesContainer.appendChild(messageEl);
+            });
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function selectChat(id, type) {
+            // Update active states in UI
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            const selectedItem = document.querySelector(`.contact-item[data-id="${id}"][data-type="${type}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('active');
+            }
+
+            // Update app state
+            currentState.activeChat = id;
+            currentState.activeChatType = type;
+
+            // Show chat container, hide empty state
+            chatContainer.style.display = 'flex';
+            emptyState.style.display = 'none';
+
+            // Update header
+            chatRecipientName.textContent = id;
+
+            if (type === 'group') {
+                const group = currentState.groups[id];
+                if (group) {
+                    const memberCount = group.members.length;
+                    chatRecipientInfo.textContent = `${memberCount} members`;
+                } else {
+                    chatRecipientInfo.textContent = '';
+                }
+            } else {
+                chatRecipientInfo.textContent = '';
+            }
+
+            // Load messages
+            fetchMessages(id, type === 'group');
+
+            // Setup message polling
+            clearInterval(currentState.messagePollingInterval);
+            currentState.messagePollingInterval = setInterval(() => {
+                fetchMessages(id, type === 'group');
+            }, 3000); // Poll every 3 seconds
+        }
+
+        // Helper Functions
+        function formatTimestamp(timestamp) {
+            if (!timestamp) return '';
+
+            const date = new Date(timestamp);
+            const now = new Date();
+            const isToday = date.toDateString() === now.toDateString();
+
+            if (isToday) {
+                return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } else {
+                return date.toLocaleDateString([], { month: 'short', day: 'numeric' }) +
+                    ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+
+            toastContainer.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        function showModal(modal) {
+            modal.classList.add('active');
+        }
+
+        function closeModal(modal) {
+            modal.classList.remove('active');
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession();
+        });
+
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSignupPage();
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+
+        loginForm.addEventListener('submit', handleLogin);
+        signupForm.addEventListener('submit', handleSignup);
+        logoutBtn.addEventListener('click', handleLogout);
+
+        // Sidebar tab switching
+        sidebarTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+
+                // Update active tab
+                sidebarTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Show corresponding tab content
+                if (tabName === 'friends') {
+                    friendsTab.style.display = 'block';
+                    groupsTab.style.display = 'none';
+                } else if (tabName === 'groups') {
+                    friendsTab.style.display = 'none';
+                    groupsTab.style.display = 'block';
+                }
+            });
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            if (query.length >= 2) {
+                searchUsers(query);
+            } else {
+                searchResults.innerHTML = '';
+            }
+        });
+
+        // Modal handling
+        addFriendBtn.addEventListener('click', () => {
+            friendUsername.value = '';
+            searchResults.innerHTML = '';
+            showModal(addFriendModal);
+        });
+
+        createGroupBtn.addEventListener('click', () => {
+            groupName.value = '';
+            renderGroupMembersList();
+            showModal(createGroupModal);
+        });
+
+        modalCloseButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                closeModal(btn.closest('.modal-overlay'));
+            });
+        });
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+        // Add friend form
+        addFriendForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const friend = friendUsername.value.trim();
+            if (friend) {
+                addFriend(friend);
+            }
+        });
+
+        // Create group form
+        createGroupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = groupName.value.trim();
+            const members = [];
+
+            document.querySelectorAll('#group-members-list input:checked').forEach(checkbox => {
+                members.push(checkbox.value);
+            });
+
+            if (name && members.length > 0) {
+                createGroup(name, members);
+            } else if (members.length === 0) {
+                showToast('Please select at least one member', 'error');
+            }
+        });
+
+        // Send message
+        sendMessageBtn.addEventListener('click', sendMessage_handler);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage_handler();
+            }
+        });
+
+        function sendMessage_handler() {
+            const message = messageInput.value.trim();
+            if (message && currentState.activeChat) {
+                sendMessage(
+                    currentState.activeChat,
+                    message,
+                    currentState.activeChatType === 'group'
+                );
+            }
+        }
+
+        // Helper to render group members list with checkboxes
+        function renderGroupMembersList() {
+            groupMembersList.innerHTML = '';
+
+            if (currentState.friends.length === 0) {
+                groupMembersList.innerHTML = '<div style="color: #666; padding: 5px;">You need to add friends first</div>';
+                return;
+            }
+
+            currentState.friends.forEach(friend => {
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'checkbox-item';
+
+                checkboxItem.innerHTML = `
+                        <input type="checkbox" id="member-${friend}" value="${friend}">
+                        <label for="member-${friend}">${friend}</label>
+                    `;
+
+                groupMembersList.appendChild(checkboxItem);
+            });
+        }
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function () {
+            this.style.height = 'auto';
+            const newHeight = Math.min(this.scrollHeight, 100);
+            this.style.height = newHeight + 'px';
+        });
+    </script>
+    <script>
+        getElementById("auth-title")
+    </script>
+</body>
+</html>
