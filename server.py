@@ -5,7 +5,7 @@ import random
 import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Required for session management
+app.secret_key = 'qazwsxedcrfvtgbyhnujmik,ol.p;/'  # Required for session management
 
 # File paths for JSON storage
 USERS_FILE = 'data/users.json'
